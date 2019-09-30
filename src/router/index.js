@@ -5,11 +5,27 @@ import HelloWorld from '@/components/HelloWorld'
 Vue.use(Router)
 
 export default new Router({
+  mode:"history",
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'HelloWorld',
+    //   component: HelloWorld
+    // },
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path:'/',
+      name:'customer',
+      component: () =>import('@/components/customer.vue')
+    },
+    {
+      path:'/about',
+      name:'about',
+      component: () =>import('@/components/about.vue')
+    },
+    {
+      path:'/add',
+      name:'add',
+      component: () =>import('@/components/add.vue')
     }
   ]
 })
