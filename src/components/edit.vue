@@ -1,8 +1,8 @@
 <template>
-    <div class="add container">
+    <div class="edit container">
         <alert-msg :message="alert" v-if="alert"></alert-msg>
-        <h1 class="page-header">添加用户</h1>
-        <form @submit="addCustomer">
+        <h1 class="page-header">编辑用户</h1>
+        <form @submit="editCustomer">
             <div class="well">
                 <h1>用户信息</h1>
                 <div class="form-group">
@@ -34,7 +34,7 @@
                     <!-- <input type="text" class="form-control" placeholder="profile" v-model="customer.profile"> -->
                     <textarea class="form-control" v-model="customer.profile" rows="10"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">添加</button>
+                <button type="submit" class="btn btn-primary">确认</button>
             </div>
         </form>
     </div>
@@ -48,13 +48,24 @@ export default {
             alert:''
         }
     },
+    created(){
+        this.getMsg(this.$route.params.id)
+    },
     methods:{
-        addCustomer(e){
+        getMsg(id){
+            this.$axios({
+                method:'GET',
+                url:'/users/'+id
+            }).then(res =>{
+                this.customer = res.data
+            })
+        },
+        editCustomer(e){
             // console.log(123)
             if(!this.customer.name || !this.customer.email || !this.customer.phone){
-                this.alert = "不能为空"
+                this.alert = '不能为空'
             } else{
-                let newCustomer = {
+                let updateCustomer = {
                     name: this.customer.name,
                     phone: this.customer.phone,
                     email: this.customer.email,
@@ -64,16 +75,15 @@ export default {
                     profile: this.customer.profile
                 }
                 this.$axios({
-                    method:'POST',
-                    url:'/users',
-                    data: newCustomer
+                    method:'PUT',
+                    url:'/users/'+this.$route.params.id,
+                    data: updateCustomer
                 }).then(res =>{
-                    this.$router.push({path:'/',query:{alert:'用户信息添加成功'}})
+                    this.$router.push({path:'/',query:{alert:'用户信息更新成功'}})
                 })
                 e.preventDefault();
             }
             e.preventDefault();
-            
         }
     }
 }

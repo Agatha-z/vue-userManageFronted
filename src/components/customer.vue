@@ -1,6 +1,8 @@
 <template>
     <div class="customer container">
+        <alert-msg :message="alert" v-if="alert"></alert-msg>
         <h1 class="page-header">用户管理系统</h1>
+        <input type="text" class="form-control" placeholder="搜索" v-model="filterInput">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -11,11 +13,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index) in customer" :key="index">
+                <tr v-for="(item,index) in filterBy(customer,filterInput)" :key="index">
                     <td>{{item.name}}</td>
                     <td>{{item.phone}}</td>
                     <td>{{item.email}}</td>
-                    <td></td>
+                    <td><router-link class="btn btn-default" :to="'/customer/'+item.id">详情</router-link></td>
                 </tr>
             </tbody>
         </table>
@@ -26,20 +28,34 @@
 export default {
     data(){
         return {
-            customer:[]
+            customer:[],
+            alert:'',
+            filterInput:''
         }
     },
     created(){
-        this.gerAbout()
+        if(this.$route.query.alert){
+            this.alert = this.$route.query.alert
+        }
+        this.getAbout()
     },
+    // updated(){
+    //     this.getAbout()
+    // },
     methods:{
-        gerAbout(){
+        getAbout(){
             this.$axios({
                 method: 'get',
-                url:'/users',
+                url:'/users'
             }).then(res =>{
                 console.log(res.data)
                 this.customer = res.data
+            })
+        },
+        // 搜索框的实现，遍历的是一个方法
+        filterBy(customer,value){
+            return customer.filter(function(customer){
+                return customer.name.match(value)
             })
         }
     }

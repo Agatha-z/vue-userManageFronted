@@ -26,6 +26,16 @@ export default new Router({
       path:'/add',
       name:'add',
       component: () =>import('@/components/add.vue')
+    },
+    {
+      path:'/customer/:id',
+      name:'customerDetail',
+      component: () =>import('@/components/customerDetail.vue')
+    },
+    {
+      path:'/edit/:id',
+      name:'edit',
+      component: () =>import('@/components/edit.vue')
     }
   ]
 })
