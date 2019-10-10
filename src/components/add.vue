@@ -65,10 +65,10 @@ export default {
                 }
                 this.$axios({
                     method:'POST',
-                    url:'/users',
+                    url:'/companies',
                     data: newCustomer
                 }).then(res =>{
-                    this.$router.push({path:'/',query:{alert:'用户信息添加成功'}})
+                    this.$router.push({path:'/customer',query:{alert:'用户信息添加成功'}})
                 })
                 e.preventDefault();
             }

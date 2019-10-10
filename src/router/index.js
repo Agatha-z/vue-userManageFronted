@@ -4,8 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
-export default new Router({
-  mode:"history",
+ const router =  new Router({
+  mode:"hash",
   routes: [
     // {
     //   path: '/',
@@ -14,8 +14,8 @@ export default new Router({
     // },
     {
       path:'/',
-      name:'customer',
-      component: () =>import('@/components/customer.vue')
+      // component: () =>import('@/components/login.vue')
+      redirect:'/login'
     },
     {
       path:'/about',
@@ -36,6 +36,41 @@ export default new Router({
       path:'/edit/:id',
       name:'edit',
       component: () =>import('@/components/edit.vue')
-    }
+    },
+    {
+      path:'/customer',
+      name:'customer',
+      component: () =>import('@/components/customer.vue')
+    },
+    {
+      path:'/login',
+      name:'login',
+      component: () =>import('@/components/login.vue')
+	},
+	{
+		path:'/register',
+		name:'register',
+		component: () =>import('@/components/register.vue')
+	  }
   ]
 })
+
+router.beforeEach((to,from,next) =>{
+	console.log(to)
+	console.log(window.location.hash)
+	let isLogin = localStorage.login
+	if(isLogin){
+		next()
+	}else{
+		if(to.path === '/login') {
+			next()
+		}else if(to.path === '/register'){
+			next()
+		}else{
+			next('/login')
+			alert('请先登录')
+		}
+	}
+})
+
+export default router

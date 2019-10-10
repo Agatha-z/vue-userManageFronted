@@ -62,6 +62,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+    .customer{
+        h1{
+            color: red
+        }
+    }
 </style>
