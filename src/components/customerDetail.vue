@@ -1,6 +1,6 @@
 <template>
     <div class="details container">
-        <router-link to="/" class="btn btn-default">返回</router-link>
+        <router-link to="/customer" class="btn btn-default">返回</router-link>
         <h1 class="page-header">
             {{customer.name}}
             <span class="pull-right">
